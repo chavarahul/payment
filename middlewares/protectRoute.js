@@ -6,7 +6,7 @@ export const protectRoute = (req,res,next) => {
         if(!token){
             return res.status(401).json({ success: false, message: 'No token provided' });
         }
-        const decoded = jwt.verify(token, process.env.secret);
+        const decoded = jwt.verify(token,'rahul121');
         req.user = decoded;
         next();
     } catch (error) {

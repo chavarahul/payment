@@ -11,13 +11,22 @@ app.use(express.json())
 app.use(cors({origin : "*"}));
 dotenv.config();
 
-mongoose.connect(process.env.DATABASE_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('mongodb connected'))
-.catch(() => console.error('MongoDB connection error:', err));
+const connectToMongoDB = async () => {
+    try {
+      await mongoose.connect(process.env.DATABASE_URL, {
+        serverSelectionTimeoutMS: 5000
+      });
+      console.log('mongodb connected');
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
+    }
+  };
+connectToMongoDB();
 
 app.use('/api/auth',userRoutes);
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end();
+});
 
 
 app.get('/', (req, res) => {

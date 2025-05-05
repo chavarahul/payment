@@ -20,6 +20,9 @@ mongoose.connect(process.env.DATABASE_URL,{
 app.use('/api/auth',userRoutes);
 
 
+app.get('/',(req,res) => {
+    res.status(200).json({message:"succesfull route"})
+})
 
 app.listen(PORT, () => {
     console.log(`listening at http://localhost:${PORT}`)

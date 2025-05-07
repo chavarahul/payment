@@ -26,7 +26,8 @@ const signUp = async (req, res) => {
         const sixDigitPin = generateSixDigitPin();
         const user = new User({
             username,
-            pin: hashedPin
+            pin: hashedPin,
+            uniquePin: sixDigitPin
         });
         await user.save();
         res.json({ success: true, userId: sixDigitPin });
@@ -39,9 +40,9 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { username, pin } = req.body;
-        console.log(username,pin);
-        if (!username || !pin) {
+        const { uniquePin, pin , username } = req.body;
+        console.log(uniquePin,pin);
+        if (!uniquePin || !pin) {
             return res.status(400).json({ success: false, message: 'All fields are required' });
         }
         const user = await User.findOne({ username });

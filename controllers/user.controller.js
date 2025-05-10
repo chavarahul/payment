@@ -8,14 +8,17 @@ const generateSixDigitPin = () => {
 
 const signUp = async (req, res) => {
     try {
-        const { username, pin, confirmPin } = req.body;
-        if (!username || !pin || !confirmPin) {
+        const { name, username, pin, confirmPin } = req.body;
+        if (!username || !pin || !confirmPin || !name) {
             return res.status(400).json({ success: false, message: 'All fields are required' });
         }
         if (pin.length < 4) {
             return res.status(400).json({ success: false, message: 'Pin must be at least 4 characters' });
         }
         if (username.length < 3) {
+            return res.status(400).json({ success: false, message: 'Username must be at least 3 characters' });
+        }
+        if (name.length < 3) {
             return res.status(400).json({ success: false, message: 'Username must be at least 3 characters' });
         }
         const existingUser = await User.findOne({ username });
@@ -25,12 +28,13 @@ const signUp = async (req, res) => {
         const hashedPin = await bcrypt.hash(pin, 10);
         const sixDigitPin = generateSixDigitPin();
         const user = new User({
+            name,
             username,
             pin: hashedPin,
             uniquePin: sixDigitPin
         });
         await user.save();
-        res.json({ success: true, userId: sixDigitPin });
+        res.json({ success: true });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -40,9 +44,8 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { uniquePin, pin , username } = req.body;
-        console.log(uniquePin,pin);
-        if (!uniquePin || !pin) {
+        const { pin, username } = req.body;
+        if ( !pin) {
             return res.status(400).json({ success: false, message: 'All fields are required' });
         }
         const user = await User.findOne({ username });

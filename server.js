@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import userRoutes from './routes/user.routes.js'
 import dotenv from 'dotenv';
+
+import userRoutes from './routes/user.routes.js'
+import payeeRoutes from './routes/payee.route.js';
 
 const app = express();
 const PORT = 4000;
@@ -24,6 +26,7 @@ const connectToMongoDB = async () => {
 connectToMongoDB();
 
 app.use('/api/auth',userRoutes);
+app.use('/api/payee', payeeRoutes);
 app.get('/favicon.ico', (req, res) => {
     res.status(204).end();
 });

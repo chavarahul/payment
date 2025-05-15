@@ -6,8 +6,8 @@ const payeeSchema = new mongoose.Schema({
   ifsccode: { type: String, required: true },
   payeeId: { type: String, required: true, unique: true },
   payeeType: { type: String, required: true },
-  agentId: { type: String, required: true },
-  agentName: { type: String, required: true },
+  agentId: { type: String, required: false }, 
+  agentName: { type: String, required: false }, 
   mobileNumber: { type: String, required: true }
 }, { timestamps: true });
 

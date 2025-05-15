@@ -1,5 +1,5 @@
 import Payee from '../models/payee.model.js';
-import Agent from '../models/agent.model.js'; 
+import Agent from '../models/aget.model.js'; 
 
 export const addPayee = async (req, res) => {
   try {

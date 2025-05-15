@@ -4,9 +4,24 @@ import Agent from '../models/aget.model.js';
 export const addPayee = async (req, res) => {
   try {
     const payeeData = req.body;
-    
+
     if (!payeeData.payeeId) {
       return res.status(400).json({ Result: 0, Message: 'Payee ID is required' });
+    }
+    if (!payeeData.fullname) {
+      return res.status(400).json({ Result: 0, Message: 'Full name is required' });
+    }
+    if (!payeeData.accountNumber) {
+      return res.status(400).json({ Result: 0, Message: 'Account number is required' });
+    }
+    if (!payeeData.ifsccode) {
+      return res.status(400).json({ Result: 0, Message: 'IFSC code is required' });
+    }
+    if (!payeeData.payeeType) {
+      return res.status(400).json({ Result: 0, Message: 'Payee type is required' });
+    }
+    if (!payeeData.mobileNumber) {
+      return res.status(400).json({ Result: 0, Message: 'Mobile number is required' });
     }
 
     const existingPayee = await Payee.findOne({ payeeId: payeeData.payeeId });
@@ -27,7 +42,8 @@ export const addPayee = async (req, res) => {
     const payee = new Payee({
       ...payeeData,
       agentId: payeeData.agentId || null,
-      agentName: payeeData.agentName || null
+      agentName: payeeData.agentName || null,
+      email: payeeData.email !== undefined ? payeeData.email : ''
     });
     await payee.save();
     res.status(201).json({ Result: 8, Message: 'Payee Added Successfully' });
@@ -54,6 +70,27 @@ export const getPayees = async (req, res) => {
 export const updatePayee = async (req, res) => {
   try {
     const payeeData = req.body;
+
+    // Validate required fields
+    if (!payeeData.payeeId) {
+      return res.status(400).json({ Result: 0, Message: 'Payee ID is required' });
+    }
+    if (!payeeData.fullname) {
+      return res.status(400).json({ Result: 0, Message: 'Full name is required' });
+    }
+    if (!payeeData.accountNumber) {
+      return res.status(400).json({ Result: 0, Message: 'Account number is required' });
+    }
+    if (!payeeData.ifsccode) {
+      return res.status(400).json({ Result: 0, Message: 'IFSC code is required' });
+    }
+    if (!payeeData.payeeType) {
+      return res.status(400).json({ Result: 0, Message: 'Payee type is required' });
+    }
+    if (!payeeData.mobileNumber) {
+      return res.status(400).json({ Result: 0, Message: 'Mobile number is required' });
+    }
+
     if (payeeData.agentId) {
       const agent = await Agent.findOne({ agentId: payeeData.agentId });
       if (!agent) {
@@ -69,7 +106,8 @@ export const updatePayee = async (req, res) => {
       {
         ...payeeData,
         agentId: payeeData.agentId || null,
-        agentName: payeeData.agentName || null
+        agentName: payeeData.agentName || null,
+        email: payeeData.email !== undefined ? payeeData.email : ''
       },
       { new: true }
     );

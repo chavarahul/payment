@@ -8,7 +8,8 @@ const payeeSchema = new mongoose.Schema({
   payeeType: { type: String, required: true },
   agentId: { type: String, required: false }, 
   agentName: { type: String, required: false }, 
-  mobileNumber: { type: String, required: true }
+  mobileNumber: { type: String, required: true },
+  email: { type: String, required: false, default: '', trim: true } // Added email field
 }, { timestamps: true });
 
 const Payee = mongoose.model('Payee', payeeSchema);

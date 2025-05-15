@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const agentSchema = new mongoose.Schema({
   agentId: { type: String, required: true, unique: true },
   agentName: { type: String, required: true },
-  email: { type: String, required: false },
+  email: { type: String, required: false , default : '' },
   phone: { type: String, required: false }
 }, { timestamps: true });
 
